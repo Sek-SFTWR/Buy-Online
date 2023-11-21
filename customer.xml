@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<users>
+    <user>
+        <id>1</id>
+        <firstname>admin1</firstname>
+        <lastname>admin</lastname>
+        <phone>099731883</phone>
+        <email>sek@gmail.com</email>
+        <password>sek</password>
+    </user>
+    <user>
+        <id>2</id>
+        <firstname>admin1</firstname>
+        <lastname>admin</lastname>
+        <phone>094231883</phone>
+        <email>seksergelen470@gmail.com</email>
+        <password>seek</password>
+    </user>
+</users>

@@ -1,0 +1,29 @@
+<title>BuyOnline</title>
+<link
+  rel="stylesheet"
+  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script>
+  $(document).ready(function () {
+    urlParams = new URLSearchParams(window.location.search);
+    name = urlParams.get('name');
+    document.getElementById('name').innerText = name;
+  });
+</script>
+
+<html>
+  <body>
+    <div style="margin-top: 300px; text-align: center">
+      <h1>Thanks, <span id="name"></span></h1>
+      <br />
+      <button
+        onclick="document.location.href='buyOnline.htm'"
+        class="btn btn-primary"
+      >
+        Back to BuyOnline!
+      </button>
+    </div>
+  </body>
+</html>

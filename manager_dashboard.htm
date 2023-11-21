@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Buy Online</title>
+    <!-- Latest compiled and minified CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Manager Dashboard</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="listing.htm">Listing</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="processing-link">Processing</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="logout.htm">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container mt-5">
+      <h2>Processed Items</h2>
+      <table class="table table-hover" id="processedItemsTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Item name</th>
+            <th>Item price</th>
+            <th>Quantity available</th>
+            <th>Quantity on hold</th>
+            <th>Quantity sold</th>
+          </tr>
+        </thead>
+        <tbody id="processedItemsData"></tbody>
+      </table>
+      <button class="btn btn-primary" id="btn-process">Process</button>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js (required for Bootstrap components) -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        
+        function loadProcessedItems() {
+          $.ajax({
+            type: 'GET',
+            url: 'get_processing_data.php', 
+            dataType: 'html',
+            success: function (data) {
+              $('#processedItemsData').html(data);
+            },
+            error: function () {
+              console.error('Error loading processed items data');
+            },
+          });
+        }
+
+        
+        $('#btn-process').on('click', function () {
+          processItems();
+        });
+
+        
+        function processItems() {
+          $.ajax({
+            type: 'POST',
+            url: 'processing.php', 
+            dataType: 'json',
+            success: function (data) {
+              if (data.success) {
+                
+                $('#processedItemsData').empty();
+
+                
+                alert('Items processed successfully!');
+              } else {
+                
+                alert('Failed to process items: ' + data.message);
+              }
+            },
+            error: function () {
+              console.error('Error processing items');
+            },
+          });
+        }
+
+        
+        loadProcessedItems();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<products>
+    <product>
+        <id>1</id>
+        <itemname>lexus </itemname>
+        <itemprice>111</itemprice>
+        <itemquantity>-1</itemquantity>
+        <itemdesc>this is car</itemdesc>
+        <on_hold>0</on_hold>
+        <sold>0</sold>
+    </product>
+    <product>
+        <id>2</id>
+        <itemname>Toyota</itemname>
+        <itemprice>10000</itemprice>
+        <itemquantity>90</itemquantity>
+        <itemdesc>this is also car</itemdesc>
+        <on_hold>0</on_hold>
+        <sold>0</sold>
+
+    </product>
+    <product>
+        <id>3</id>
+        <itemname>Phone</itemname>
+        <itemprice>10000</itemprice>
+        <itemquantity>9</itemquantity>
+        <itemdesc>12</itemdesc>
+        <on_hold>0</on_hold>
+        <sold>0</sold>
+
+    </product>
+    <product>
+        <id>4</id>
+        <itemname>notebook</itemname>
+        <itemprice>1122</itemprice>
+        <itemquantity>0</itemquantity>
+        <itemdesc>this is notebook</itemdesc>
+        <on_hold>0</on_hold>
+        <sold>0</sold>
+
+    </product>
+    <product>
+        <id>5</id>
+        <itemname>boy friend</itemname>
+        <itemprice>1</itemprice>
+        <itemquantity>988</itemquantity>
+        <itemdesc>free boy friend</itemdesc>
+        <on_hold>0</on_hold>
+        <sold>0</sold>
+
+    </product>
+    <product>
+        <id>6</id>
+        <itemname>Speaker</itemname>
+        <itemprice>1000</itemprice>
+        <itemquantity>91</itemquantity>
+        <itemdesc>This is most popular speaker in the world</itemdesc>
+        <on_hold>0</on_hold>
+        <sold>0</sold>
+    </product>
+    <product>
+        <id>7</id>
+        <itemname>Bag</itemname>
+        <itemprice>10</itemprice>
+        <itemquantity>9997</itemquantity>
+        <itemdesc>This is package</itemdesc>
+        <on_hold>0</on_hold>
+        <sold>0</sold>
+    </product>
+</products>

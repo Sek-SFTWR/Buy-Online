@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Buying Page</title>
+    <!-- Latest compiled and minified CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Buying Page</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="logout.htm">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container mt-5">
+      <h2>Shopping Catalog</h2>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Item name</th>
+            <th>Item price</th>
+            <th>Item quantity</th>
+            <th>Item Description</th>
+            <th>Add</th>
+          </tr>
+        </thead>
+        <tbody id="customerData"></tbody>
+      </table>
+
+      <h2>Shopping Cart</h2>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Item name</th>
+            <th>Item price</th>
+            <th>On Hold Quantity</th>
+            <th>Remove</th>
+          </tr>
+          <tr></tr>
+        </thead>
+        <tbody id="shoppingCart"></tbody>
+        <tfoot>
+          <tr>
+            <td>Total:</td>
+            <td id="total-price"></td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <button class="btn btn-primary" id="btn-confirm">Confirm purchase</button>
+      <button class="btn btn-success" id="btn-cancel">Cancel purchase</button>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        function loadData() {
+          $.ajax({
+            type: 'GET',
+            url: 'buying.php',
+            dataType: 'html',
+            success: function (data) {
+              $('#customerData').html(data);
+            },
+            error: function () {
+              console.error('Error loading customer data');
+            },
+          });
+        }
+        loadData();
+        setInterval(loadData, 10000);
+
+        $('#shoppingCart').on('click', 'a.remove-from-cart', function () {
+          var productId = $(this).data('product-id');
+          removeFromCart(productId);
+        });
+
+        $('#customerData').on('click', 'a.add-to-cart', function () {
+          var productId = $(this).data('product-id');
+          addToCart(productId);
+        });
+
+        $('#btn-confirm').on('click', function () {
+          confirmPurchase();
+        });
+
+        $('#btn-cancel').on('click', function () {
+          cancelPurchase();
+        });
+
+        function addToCart(productId) {
+          $.ajax({
+            type: 'POST',
+            url: 'buying.php',
+            data: { productId: productId },
+            dataType: 'json',
+            encode: true,
+            success: function (data) {
+              if (data.success) {
+                alert('Item added to the cart successfully!');
+                updateShoppingCart();
+              } else {
+                alert('Failed to add item to the cart: ' + data.message);
+              }
+            },
+            error: function () {
+              console.error('Error adding item to the cart');
+            },
+          });
+        }
+
+        function removeFromCart(productId) {
+          $.ajax({
+            type: 'POST',
+            url: 'buying.php',
+            data: { removeProductId: productId },
+            dataType: 'json',
+            encode: true,
+            success: function (data) {
+              if (data.success) {
+                alert('Item removed from the cart successfully!');
+                updateShoppingCart();
+              } else {
+                alert('Failed to remove item from the cart: ' + data.message);
+              }
+            },
+            error: function () {
+              console.error('Error removing item from the cart');
+            },
+          });
+        }
+
+        function confirmPurchase() {
+          $.ajax({
+            type: 'POST',
+            url: 'confirm_purchase.php',
+            dataType: 'json',
+            success: function (data) {
+              if (data.success) {
+                $('#shoppingCart').empty();
+                $('#total-price').text('0');
+
+                alert(
+                  'Your purchase has been confirmed, and the total amount due to pay is $' +
+                    data.totalAmount,
+                );
+              } else {
+                alert('Failed to confirm purchase: ' + data.message);
+              }
+            },
+            error: function () {
+              console.error('Error confirming purchase');
+            },
+          });
+        }
+
+        function cancelPurchase() {
+          $.ajax({
+            type: 'POST',
+            url: 'cancel_purchase.php',
+            dataType: 'json',
+            success: function (data) {
+              if (data.success) {
+                $('#shoppingCart').empty();
+                $('#total-price').text('0');
+
+                alert(
+                  'Your purchase request has been cancelled. Welcome to shop next time!',
+                );
+              } else {
+                alert('Failed to cancel purchase: ' + data.message);
+              }
+            },
+            error: function () {
+              console.error('Error cancelling purchase');
+            },
+          });
+        }
+
+        function updateShoppingCart() {
+          $.ajax({
+            type: 'GET',
+            url: 'get_cart.php',
+            dataType: 'json',
+            success: function (data) {
+              $('#shoppingCart').html(data.cartHtml); // Update shopping cart
+              $('#total-price').text(data.totalPrice); // Update total price
+            },
+            error: function () {
+              console.error('Error updating shopping cart');
+            },
+          });
+        }
+
+        updateShoppingCart();
+      });
+    </script>
+  </body>
+</html>

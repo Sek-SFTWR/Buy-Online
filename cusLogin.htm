@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Form</title>
+    <!-- Latest compiled and minified CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <style>
+      /* Custom styles */
+      body {
+        background-color: #f8f9fa;
+      }
+
+    
+      .custom-form {
+        max-width: 400px;
+        margin: 0 auto;
+      }
+
+      
+      .custom-form .form-group {
+        margin-bottom: 15px;
+      }
+    </style>
+
+    <script>
+      function submitLoginForm() {
+        
+        var email = $('#email').val();
+        var password = $('#password').val();
+
+        if (!email || !password) {
+          alert('Email and password are required');
+          return;
+        }
+
+        var formData = {
+          email: email,
+          password: password,
+        };
+
+        $.ajax({
+          type: 'POST',
+          url: 'cusLogin.php',
+          data: JSON.stringify(formData),
+          contentType: 'application/json',
+          dataType: 'json',
+        }).done(function (data) {
+          if (data.success) {
+           
+            alert('Login successful! Redirecting to home page...');
+
+           
+            setTimeout(function () {
+              window.location.href = 'buying.htm'; 
+            }, 2000);
+          } else {
+            alert('Login failed: ' + data.message);
+          }
+        });
+      }
+      function register() {
+        window.location.href = 'cusRegister.htm';
+      }
+      function back() {
+        window.location.href = 'buyOnline.htm';
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <form id="loginForm" method="post" class="custom-form">
+        <button class="btn btn-primary" onclick="back()">Back</button>
+        <h4 class="form-head">Customer Login</h4>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            required
+          />
+        </div>
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          onclick="submitLoginForm()"
+        >
+          Login
+        </button>
+        <button class="btn btn-success" onclick="register()">Register</button>
+      </form>
+    </div>
+  </body>
+</html>
